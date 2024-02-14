@@ -36,7 +36,7 @@ const Map: React.FC = () => {
           coordinate={{ latitude: gym.latitude, longitude: gym.longitude }}
           title={`Gym ${gym.id}`}
         >
-            <Image source={gym.image} style={{ width: 800, height: 300 }} />
+            <Image source={gym.image} style={{ width: 150, height: 150 }} />
         </Marker>
       ))}
     </MapView>
