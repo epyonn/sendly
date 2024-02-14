@@ -1,3 +1,10 @@
 {
-  "extends": "@react-native/typescript-config/tsconfig.json"
+  "compilerOptions": {
+    // Your compiler options here
+  },
+  "include": [
+    "./**/*.ts", // Include all TypeScript files in the project
+    "./**/*.tsx", // Include all TSX files if you are using React or similar
+    "types/**/*.d.ts" // Specifically include your custom type definitions
+  ]
 }
