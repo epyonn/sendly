@@ -1,25 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer } from '@react-navigation/native';
-import { Text, View, StyleSheet } from 'react-native';
-import { Image } from 'react-native';
+import { NavigationContainer, useIsFocused } from '@react-navigation/native';
 import Maps from './Map';
+import AnimatedDonutChart from './AnimatedDonutChart';
 
 const Tab = createBottomTabNavigator();
 
-// Dummy screens for demonstration
-function HomeScreen() {
-  return (
-    <View style={styles.screen}>
-      <Text>Home Screen</Text>
-    </View>
-  );
-}
+function Rankings() {
+  const isFocused = useIsFocused();
+  const [key, setKey] = useState(0); // Initialize a state to hold the key
 
-function SettingsScreen() {
+  useEffect(() => {
+    if (isFocused) {
+      // When the tab is focused, update the key to force re-render the AnimatedDonutChart
+      setKey(prevKey => prevKey + 1);
+    }
+  }, [isFocused]); // Depend on isFocused to re-run this effect
+
   return (
     <View style={styles.screen}>
-      <Text>Settings Screen</Text>
+      {/* Apply the key to AnimatedDonutChart to force re-render when key changes */}
+      <AnimatedDonutChart key={key} />
+      
     </View>
   );
 }
@@ -32,60 +35,47 @@ function ProfileScreen() {
   );
 }
 
-const AppNavigator: React.FC = () => {
+const AppNavigator = () => {
   return (
     <NavigationContainer>
       <Tab.Navigator>
-        <Tab.Screen 
-          name="Home" 
-          component={HomeScreen} 
+        <Tab.Screen
+          name="Profile"
+          component={ProfileScreen}
           options={{
             tabBarIcon: ({ focused }) => (
-              <Image 
-              source={focused ? require('../assets/profile.png') : require('../assets/profile.png')} 
-              style={styles.icon} 
+              <Image
+                source={focused ? require('../assets/profile.png') : require('../assets/profile.png')}
+                style={styles.icon}
               />
             ),
-            tabBarLabel: 'Home'
+            tabBarLabel: 'Profile',
           }}
         />
-        <Tab.Screen 
-          name="Settings" 
-          component={SettingsScreen} 
+        <Tab.Screen
+          name="Rankings"
+          component={Rankings}
           options={{
             tabBarIcon: ({ focused }) => (
-              <Image 
-              source={focused ? require('../assets/profile.png') : require('../assets/profile.png')} 
-              style={styles.icon} 
+              <Image
+                source={focused ? require('../assets/rankings.png') : require('../assets/rankings.png')}
+                style={styles.icon}
               />
             ),
-            tabBarLabel: 'Settings'
+            tabBarLabel: 'Rankings',
           }}
         />
-        <Tab.Screen 
-          name="Profile" 
-          component={ProfileScreen} 
+        <Tab.Screen
+          name="Gyms"
+          component={Maps}
           options={{
             tabBarIcon: ({ focused }) => (
-              <Image 
-                source={focused ? require('../assets/profile.png') : require('../assets/profile.png')} 
-                style={styles.icon} 
+              <Image
+                source={focused ? require('../assets/gym.png') : require('../assets/gym.png')}
+                style={styles.icon}
               />
             ),
-            tabBarLabel: 'Profile'
-          }}
-        />
-        <Tab.Screen 
-          name="Gyms" 
-          component={Maps} 
-          options={{
-            tabBarIcon: ({ focused }) => (
-              <Image 
-                source={focused ? require('../assets/gym.png') : require('../assets/gym.png')} 
-                style={styles.icon} 
-              />
-            ),
-            tabBarLabel: 'Gyms'
+            tabBarLabel: 'Gyms',
           }}
         />
       </Tab.Navigator>
@@ -99,18 +89,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  iconContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingTop: 30,
-  },
   icon: {
-    width: 25, // Adjust the size of the icon as needed
+    width: 25,
     height: 25,
   },
 });
-
-
 
 export default AppNavigator;
