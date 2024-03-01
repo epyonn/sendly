@@ -9,19 +9,5 @@ function App(): React.JSX.Element {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  mapContainer: {
-    flex: 1, // Takes all available space leaving only necessary space for NavBar
-  },
-  navBarContainer: {
-    height: 60, // Adjust based on the height of your NavBar
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-});
 
 export default App;
